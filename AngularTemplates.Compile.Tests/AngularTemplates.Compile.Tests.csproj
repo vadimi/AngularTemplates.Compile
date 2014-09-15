@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C128112A-5EB9-499E-BE5C-7063312B9493}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>AngularTemplates.Compile.Tests</RootNamespace>
+    <AssemblyName>AngularTemplates.Compile.Tests</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="nunit.framework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="TemplateCompilerTests.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\AngularTemplates.Compile\AngularTemplates.Compile.csproj">
+      <Project>{E7CC54CF-5039-4016-ACC2-889152D9B4C1}</Project>
+      <Name>AngularTemplates.Compile</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="expected\" />
+    <Folder Include="fixtures\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="expected\compiled1.js" />
+    <None Include="expected\compiled2.js" />
+    <None Include="expected\compiled3.js" />
+    <None Include="expected\compiled4.js" />
+    <None Include="fixtures\template1.html" />
+    <None Include="fixtures\template2.html" />
+  </ItemGroup>
+</Project>
