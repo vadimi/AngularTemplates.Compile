@@ -1,64 +1,65 @@
-﻿using NUnit.Framework;
-using System;
-using AngularTemplates.Compile;
-using System.IO;
+﻿using System.IO;
+using Xunit;
 
 namespace AngularTemplates.Compile.Tests
 {
-    [TestFixture()]
     public class TemplateCompilerTests
     {
-        [Test()]
-        public void TestEmptyModuleName()
+        [Fact]
+        public void ShouldUseDefaultModuleName()
         {
             var options = new TemplateCompilerOptions {
-                ModuleName = ""
+                ModuleName = "",
+                WorkingDir = "../../../fixtures"
             };
 
             var compiler = new TemplateCompiler(options);
-            var result = compiler.Compile(new [] { "../../fixtures/template1.html" });
-            Assert.AreEqual(result, File.ReadAllText("../../expected/compiled1.js"));
+            var result = compiler.Compile(new [] { "../../../fixtures/template1.html" });
+            Assert.Equal(result, File.ReadAllText("../../../expected/compiled1.js"));
         }
 
-        [Test()]
-        public void TestCustomModuleName()
+        [Fact]
+        public void ShouldUseCustomModuleName()
         {
             var options = new TemplateCompilerOptions {
-                ModuleName = "myapp"
+                ModuleName = "myapp",
+                WorkingDir = "../../../fixtures"
             };
 
             var compiler = new TemplateCompiler(options);
-            var result = compiler.Compile(new [] { "../../fixtures/template1.html" });
-            Assert.AreEqual(result, File.ReadAllText("../../expected/compiled2.js"));
+            var result = compiler.Compile(new [] { "../../../fixtures/template1.html" });
+            Assert.Equal(result, File.ReadAllText("../../../expected/compiled2.js"));
         }
 
-        [Test()]
-        public void TestCustomBaseUrl()
+        [Fact]
+        public void ShouldAddPrefixToTemplateName()
         {
             var options = new TemplateCompilerOptions {
-                BaseUrl = "/templates",
-                ModuleName = "myapp"
+                Prefix = "/templates",
+                ModuleName = "myapp",
+                WorkingDir = "../../../fixtures"
             };
 
             var compiler = new TemplateCompiler(options);
-            var result = compiler.Compile(new [] { "../../fixtures/template1.html" });
-            Assert.AreEqual(result, File.ReadAllText("../../expected/compiled3.js"));
+            var result = compiler.Compile(new [] { "../../../fixtures/template1.html" });
+            Assert.Equal(result, File.ReadAllText("../../../expected/compiled3.js"));
         }
 
-        [Test()]
-        public void TestMultipleFiles()
+        [Fact]
+        public void ShouldCombineMultipleFiles()
         {
             var options = new TemplateCompilerOptions {
-                BaseUrl = "/templates",
-                ModuleName = "myapp"
+                Prefix = "/templates",
+                ModuleName = "myapp",
+                WorkingDir = "../../../fixtures"
             };
 
             var compiler = new TemplateCompiler(options);
             var result = compiler.Compile(new [] {
-                "../../fixtures/template1.html",
-                "../../fixtures/template2.html"
+                "../../../fixtures/template1.html",
+                "../../../fixtures/template2.html"
             });
-            Assert.AreEqual(result, File.ReadAllText("../../expected/compiled4.js"));
+            Assert.Equal(result, File.ReadAllText("../../../expected/compiled4.js"));
         }
     }
 }
