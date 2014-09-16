@@ -18,3 +18,5 @@ pkg
 *.log*
 *.DotSettings
 *.userprefs
+packages/*
+!packages/repositories.config

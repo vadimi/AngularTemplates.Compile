@@ -61,6 +61,20 @@ namespace AngularTemplates.Compile.Tests
             });
             Assert.Equal(result, File.ReadAllText("../../../expected/compiled4.js"));
         }
+
+        [Fact]
+        public void ShouldRenderStandaloneModule()
+        {
+            var options = new TemplateCompilerOptions {
+                ModuleName = "",
+                WorkingDir = "../../../fixtures",
+                Standalone = true
+            };
+
+            var compiler = new TemplateCompiler(options);
+            var result = compiler.Compile(new [] { "../../../fixtures/template1.html" });
+            Assert.Equal(result, File.ReadAllText("../../../expected/compiled5.js"));
+        }
     }
 }
 
