@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
@@ -13,9 +14,11 @@ namespace AngularTemplates.Compile
         [Required]
         public string OutputFile { get; set; }
 
-        public string BaseUrl { get; set; }
+        public string Prefix { get; set; }
 
         public string ModuleName { get; set; }
+
+        public string WorkingDir { get; set; }
 
         public override bool Execute()
         {
@@ -47,11 +50,12 @@ namespace AngularTemplates.Compile
         {
             var options = new TemplateCompilerOptions {
                 OutputPath = OutputFile,
-                BaseUrl = BaseUrl,
-                ModuleName = ModuleName
+                Prefix = Prefix,
+                ModuleName = ModuleName,
+                WorkingDir = WorkingDir
             };
             var compiler = new TemplateCompiler(options);
-            compiler.Compile(SourceFiles.Select(s => s.ItemSpec).ToArray());
+            compiler.CompileToFile(SourceFiles.Select(s => s.ItemSpec).ToArray());
             Log.LogMessage("Compiled {0} templates to {1}", SourceFiles.Length, OutputFile);
         }
     }

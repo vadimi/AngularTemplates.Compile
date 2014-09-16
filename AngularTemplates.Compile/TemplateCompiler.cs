@@ -7,24 +7,29 @@ namespace AngularTemplates.Compile
 {
     public class TemplateCompiler
     {
-        private TemplateCompilerOptions options;
-        private readonly string baseUrl;
-        private readonly string moduleName;
+        private readonly TemplateCompilerOptions _options;
+        private readonly string _baseUrl;
+        private readonly string _moduleName;
+        private readonly string _workingDir;
+        private const string DefaultModuleName = "app";
 
         public TemplateCompiler(TemplateCompilerOptions options)
         {
-            this.options = options;
-            baseUrl = string.Empty;
-            if (!string.IsNullOrWhiteSpace(options.BaseUrl))
+            _options = options;
+            _baseUrl = string.Empty;
+            if (!string.IsNullOrWhiteSpace(options.Prefix))
             {
-                baseUrl = options.BaseUrl;
-                if (!baseUrl.EndsWith("/"))
+                _baseUrl = options.Prefix;
+                if (!_baseUrl.EndsWith("/"))
                 {
-                    baseUrl += "/";
+                    _baseUrl += "/";
                 }
             }
 
-            moduleName = string.IsNullOrWhiteSpace(options.ModuleName) ? "app" : options.ModuleName;
+            _moduleName = string.IsNullOrWhiteSpace(options.ModuleName) ? DefaultModuleName : options.ModuleName;
+            _workingDir = string.IsNullOrWhiteSpace(options.WorkingDir)
+                ? Environment.CurrentDirectory
+                : Path.GetFullPath(options.WorkingDir);
         }
 
         public string Compile(string[] templateFiles)
@@ -42,7 +47,7 @@ namespace AngularTemplates.Compile
         {
             CheckOutputDir();
 
-            using (var stream = new StreamWriter(options.OutputPath))
+            using (var stream = new StreamWriter(_options.OutputPath))
             {
                 Compile(stream, templateFiles);
             }
@@ -56,8 +61,13 @@ namespace AngularTemplates.Compile
             }
 
             writer.Write("angular.module('");
-            writer.Write(moduleName);
-            writer.WriteLine("', []).run(['$templateCache', function ($templateCache) {");
+            writer.Write(_moduleName);
+            writer.Write("'");
+            if (_options.Standalone)
+            {
+                writer.Write(", []");
+            }
+            writer.WriteLine(").run(['$templateCache', function ($templateCache) {");
             foreach (var file in templateFiles)
             {
                 var templateName = GetTemplateName(file);
@@ -67,7 +77,7 @@ namespace AngularTemplates.Compile
             writer.Write("}]);");
         }
 
-        void WriteToStream(TextWriter writer, string templateName, string template)
+        private void WriteToStream(TextWriter writer, string templateName, string template)
         {
             writer.Write("$templateCache.put('");
             writer.Write(templateName);
@@ -83,13 +93,28 @@ namespace AngularTemplates.Compile
 
         private string GetTemplateName(string file)
         {
-            return baseUrl + Path.GetFileName(file);
+            var name = _baseUrl +
+                       GetRelativePath(Path.GetFullPath(file), _workingDir);
+            return name.ToLower();
+        }
+
+        private string GetRelativePath(string filespec, string folder)
+        {
+            var pathUri = new Uri(filespec);
+
+            // Folders must end in a slash
+            if (!folder.EndsWith(Path.DirectorySeparatorChar.ToString()))
+            {
+                folder += Path.DirectorySeparatorChar;
+            }
+            var folderUri = new Uri(folder);
+            return Uri.UnescapeDataString(folderUri.MakeRelativeUri(pathUri).ToString());
         }
 
         private void CheckOutputDir()
         {
-            var outputDir = Path.GetDirectoryName(options.OutputPath);
-            if (!Directory.Exists(outputDir))
+            var outputDir = Path.GetDirectoryName(_options.OutputPath);
+            if (outputDir != null && !Directory.Exists(outputDir))
             {
                 Directory.CreateDirectory(outputDir);
             }
