@@ -2,6 +2,7 @@
 using System.IO;
 using System.Web;
 using System.Text;
+using System.Web.Hosting;
 
 namespace AngularTemplates.Compile
 {
@@ -32,7 +33,12 @@ namespace AngularTemplates.Compile
                 : Path.GetFullPath(options.WorkingDir);
         }
 
-        public string Compile(string[] templateFiles)
+        /// <summary>
+        /// Compile template files into a string
+        /// </summary>
+        /// <param name="templateFiles"></param>
+        /// <returns></returns>
+        public string Compile(VirtualFile[] templateFiles)
         {
             var sb = new StringBuilder();
             using (var stream = new StringWriter(sb))
@@ -43,7 +49,11 @@ namespace AngularTemplates.Compile
             return sb.ToString();
         }
 
-        public void CompileToFile(string[] templateFiles)
+        /// <summary>
+        /// Compile template files and save them to external file specified in options.OutputPath
+        /// </summary>
+        /// <param name="templateFiles"></param>
+        public void CompileToFile(VirtualFile[] templateFiles)
         {
             CheckOutputDir();
 
@@ -53,11 +63,11 @@ namespace AngularTemplates.Compile
             }
         }
 
-        private void Compile(TextWriter writer, string[] templateFiles)
+        private void Compile(TextWriter writer, VirtualFile[] templateFiles)
         {
-            if (templateFiles == null || templateFiles.Length == 0)
+            if (templateFiles == null)
             {
-                throw new ArgumentException("templateFiles cannot be null or empty.");
+                templateFiles = new VirtualFile[0];
             }
 
             writer.Write("angular.module('");
@@ -70,8 +80,12 @@ namespace AngularTemplates.Compile
             writer.WriteLine(").run(['$templateCache', function ($templateCache) {");
             foreach (var file in templateFiles)
             {
-                var templateName = GetTemplateName(file);
-                var template = File.ReadAllText(file);
+                var templateName = GetTemplateName(file.VirtualPath);
+                string template;
+                using (var streamReader = new StreamReader(file.Open()))
+                {
+                    template = streamReader.ReadToEnd();
+                }
                 WriteToStream(writer, templateName, template);
             }
             writer.Write("}]);");
