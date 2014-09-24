@@ -29,6 +29,12 @@
         /// Defines current working directory to build relative path for template name. If it is empty Environment.CurrentDirectory will be used instead. 
         /// </summary>
         public string WorkingDir { get; set; }
+
+        /// <summary>
+        /// Lowercase template name
+        /// </summary>
+        /// <value><c>true</c> if lowercase template name; otherwise, <c>false</c>.</value>
+        public bool LowercaseTemplateName { get; set; }
     }
 }
 

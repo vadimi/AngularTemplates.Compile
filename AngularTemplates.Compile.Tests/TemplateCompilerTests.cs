@@ -91,5 +91,21 @@ namespace AngularTemplates.Compile.Tests
             var result = compiler.Compile(new VirtualFile[] {_template1});
             Assert.Equal(File.ReadAllText("../../../expected/compiled5.js"), result);
         }
+
+        [Fact]
+        public void ShouldLowercaseTemplateName()
+        {
+            var options = new TemplateCompilerOptions
+            {
+                ModuleName = "",
+                WorkingDir = "/fixtures",
+                LowercaseTemplateName = true
+            };
+
+            var template = new TestVirtualFile("/fixtures/TEMPLATE1.html", "test");
+            var compiler = new TemplateCompiler(options);
+            var result = compiler.Compile(new VirtualFile[] {template});
+            Assert.Equal(File.ReadAllText("../../../expected/compiled1.js"), result);
+        }
     }
 }

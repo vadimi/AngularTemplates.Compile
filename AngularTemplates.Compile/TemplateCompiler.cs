@@ -109,7 +109,7 @@ namespace AngularTemplates.Compile
         {
             var name = _baseUrl +
                        GetRelativePath(Path.GetFullPath(file), _workingDir);
-            return name.ToLower();
+            return _options.LowercaseTemplateName ? name.ToLower() : name;
         }
 
         private string GetRelativePath(string filespec, string folder)
