@@ -11,7 +11,7 @@ namespace AngularTemplates.Compile.Tests
         {
             var response = Optimizer.BuildBundle("~/templates", new OptimizationSettings
             {
-                ApplicationPath = @"../../../fixtures",
+                ApplicationPath = Path.GetFullPath("../../../fixtures"),
                 BundleSetupMethod = SetupBundles
             });
 
