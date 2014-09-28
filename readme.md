@@ -20,7 +20,7 @@ ASP.NET MVC bundle and MsBuild Task to combine multiple Angular JS templates int
 
 Specify in BundleConfig.cs the following bundle with options:
 
-```
+```csharp
 var options = new TemplateCompilerOptions
 	{
 	    ModuleName = "myapp",
@@ -35,13 +35,13 @@ bundles.Add(bundle);
 
 In your view render this bundle:
 
-```
+```csharp
 @Scripts.Render("~/templates")
 ```
 
 ## MsBuild example
 
-```
+```xml
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/MsBuild/2003" DefaultTargets="BuildBundles">
   <UsingTask TaskName="AngularTemplates.Compile.AngularTemplatesTask"
   	AssemblyFile="..\packages\AngularTemplates.Compile.1.0.0\lib\net40\AngularTemplates.Compile.dll" />
