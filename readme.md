@@ -3,6 +3,11 @@ AngularTemplates.Compile
 
 ASP.NET MVC bundle and MsBuild Task to combine multiple Angular JS templates into a single javascript file. [$templateCache](https://docs.angularjs.org/api/ng/service/$templateCache)  angular service is used to cache templates.
 
+Supported platforms:
+
+- .NET 4.0+
+- Mono 3.8+
+
 ## Options
 `Prefix` - String to prefix template urls with.
 
