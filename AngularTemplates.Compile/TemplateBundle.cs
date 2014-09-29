@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Optimization;
 
@@ -23,6 +24,11 @@ namespace AngularTemplates.Compile
         {
             if (context == null)
                 throw new ArgumentNullException("context");
+
+            if (!context.EnableOptimizations)
+            {
+                return new BundleResponse(string.Empty, new List<BundleFile>());
+            }
 
             var bundleFiles = EnumerateFiles(context);
             var ignoredFiles = context.BundleCollection.IgnoreList.FilterIgnoredFiles(context, bundleFiles);
