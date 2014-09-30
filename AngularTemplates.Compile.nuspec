@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>AngularTemplates.Compile</id>
-    <title>Combine and minify AngularJS templates</title>
+    <title>AngularJS templates bundling</title>
     <version>1.0.0</version>
     <authors>Vadzim Ivanou</authors>
     <licenseUrl>http://www.opensource.org/licenses/mit</licenseUrl>

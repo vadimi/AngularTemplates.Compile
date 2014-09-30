@@ -8,6 +8,10 @@ Supported platforms:
 - .NET 4.0+
 - Mono 3.8+
 
+## Install
+
+`PM> Install-Package AngularTemplates.Compile`
+
 ## Options
 `Prefix` - String to prefix template urls with.
 
