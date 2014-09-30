@@ -85,6 +85,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
+    <ProjectReference Include="..\AngularTemplates.Bundling\AngularTemplates.Bundling.csproj">
+      <Project>{f81d8827-d7bc-43b0-a407-275cb1f65e25}</Project>
+      <Name>AngularTemplates.Bundling</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AngularTemplates.Compile\AngularTemplates.Compile.csproj">
       <Project>{E7CC54CF-5039-4016-ACC2-889152D9B4C1}</Project>
       <Name>AngularTemplates.Compile</Name>

@@ -51,13 +51,10 @@ In your view render this bundle:
   <UsingTask TaskName="AngularTemplates.Compile.AngularTemplatesTask"
   	AssemblyFile="..\packages\AngularTemplates.Compile.1.0.0\lib\net40\AngularTemplates.Compile.dll" />
 
-
   <Target Name="BuildBundles">
 
     <ItemGroup>
-
       <Templates Include="$(ProjectDir)Scripts\templates\*.html;"/>
-
     </ItemGroup>
 
     <AngularTemplatesTask SourceFiles="@(Templates)"

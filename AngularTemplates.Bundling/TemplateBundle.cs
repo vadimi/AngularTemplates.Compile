@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Optimization;
+using AngularTemplates.Compile;
 
-namespace AngularTemplates.Compile
+namespace AngularTemplates.Bundling
 {
     public class TemplateBundle : ScriptBundle
     {
@@ -25,7 +26,7 @@ namespace AngularTemplates.Compile
             if (context == null)
                 throw new ArgumentNullException("context");
 
-            if (!context.EnableOptimizations)
+            if (!BundleTable.EnableOptimizations)
             {
                 return new BundleResponse(string.Empty, new List<BundleFile>());
             }

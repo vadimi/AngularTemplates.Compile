@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Web.Optimization;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
 
@@ -9,8 +8,6 @@ namespace AngularTemplates.Compile
 {
     public class AngularTemplatesTask : Task
     {
-        private const string BundleName = "~/templates";
-
         [Required]
         public ITaskItem[] SourceFiles { get; set; }
 
@@ -24,6 +21,8 @@ namespace AngularTemplates.Compile
         public string WorkingDir { get; set; }
 
         public bool Standalone { get; set; }
+
+        public bool LowercaseTemplateName { get; set; }
 
         public override bool Execute()
         {
@@ -53,43 +52,21 @@ namespace AngularTemplates.Compile
 
         private void Compile()
         {
-            var response = Optimizer.BuildBundle(BundleName, new OptimizationSettings
-            {
-                ApplicationPath = Environment.CurrentDirectory,
-                BundleSetupMethod = SetupBundles
-            });
-
-            File.WriteAllText(OutputFile, response.Content);
-
-            Log.LogMessage("Compiled {0} templates to {1}", SourceFiles.Length, OutputFile);
-        }
-
-        private void SetupBundles(BundleCollection collection)
-        {
             var options = new TemplateCompilerOptions
             {
                 OutputPath = OutputFile,
                 Prefix = Prefix,
                 ModuleName = ModuleName,
                 WorkingDir = WorkingDir,
-                Standalone = Standalone
+                Standalone = Standalone,
+                LowercaseTemplateName = LowercaseTemplateName
             };
 
-            var bundle = new TemplateBundle(BundleName, options)
-                .Include(SourceFiles.Select(s => NormalizeUrl(s.ItemSpec)).ToArray());
-
-            // we don't need any transforms here
-            bundle.Transforms.Clear();
-
-            Log.LogMessage(string.Join(", ", SourceFiles.Select(s => s.ItemSpec).ToArray()));
-
-            collection.Add(bundle);
-        }
-
-        private string NormalizeUrl(string url)
-        {
-            var prefix = url.StartsWith("~") ? string.Empty : "~/";
-            return Path.Combine(prefix, url);
+            var compiler = new TemplateCompiler(options);
+            var files = SourceFiles.Select(f => new FileInfoVirtualFile(f.ItemSpec, new FileInfo(f.ItemSpec))).ToArray();
+            compiler.CompileToFile(files);
+            
+            Log.LogMessage("Compiled {0} templates to {1}", SourceFiles.Length, OutputFile);
         }
     }
 }

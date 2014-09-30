@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Web.Optimization;
+using AngularTemplates.Bundling;
 using Xunit;
 
 namespace AngularTemplates.Compile.Tests
@@ -9,6 +10,8 @@ namespace AngularTemplates.Compile.Tests
         [Fact]
         public void ShouldBuildTemplateBundle()
         {
+            BundleTable.EnableOptimizations = true;
+
             var response = Optimizer.BuildBundle("~/templates", new OptimizationSettings
             {
                 ApplicationPath = Path.GetFullPath("../../../fixtures"),

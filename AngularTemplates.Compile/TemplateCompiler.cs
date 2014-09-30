@@ -38,7 +38,7 @@ namespace AngularTemplates.Compile
         /// </summary>
         /// <param name="templateFiles"></param>
         /// <returns></returns>
-        public string Compile(VirtualFile[] templateFiles)
+        public string Compile<T>(T[] templateFiles) where T : VirtualFile
         {
             var sb = new StringBuilder();
             using (var stream = new StringWriter(sb))
@@ -53,7 +53,7 @@ namespace AngularTemplates.Compile
         /// Compile template files and save them to external file specified in options.OutputPath
         /// </summary>
         /// <param name="templateFiles"></param>
-        public void CompileToFile(VirtualFile[] templateFiles)
+        public void CompileToFile<T>(T[] templateFiles) where T : VirtualFile
         {
             CheckOutputDir();
 
@@ -63,11 +63,11 @@ namespace AngularTemplates.Compile
             }
         }
 
-        private void Compile(TextWriter writer, VirtualFile[] templateFiles)
+        private void Compile<T>(TextWriter writer, T[] templateFiles) where T : VirtualFile
         {
             if (templateFiles == null)
             {
-                templateFiles = new VirtualFile[0];
+                templateFiles = new T[0];
             }
 
             writer.Write("angular.module('");
