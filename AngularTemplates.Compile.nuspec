@@ -18,5 +18,6 @@
   </metadata>
   <files>
     <file src="AngularTemplates.Compile/bin/Release/AngularTemplates.Compile.dll" target="lib/net40" />
+    <file src="AngularTemplates.Bundling/bin/Release/AngularTemplates.Bundling.dll" target="lib/net40" />
   </files>
 </package>
