@@ -29,10 +29,17 @@
     <ConsolePause>false</ConsolePause>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\AngularTemplates.Compile.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Compile Include="AngularTemplatesTask.cs" />
     <Compile Include="FileInfoVirtualFile.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TemplateCompiler.cs" />
     <Compile Include="TemplateCompilerOptions.cs" />
   </ItemGroup>
@@ -41,5 +48,10 @@
     <Reference Include="Microsoft.Build.Utilities.v4.0" />
     <Reference Include="System" />
     <Reference Include="System.Web" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\AngularTemplates.Compile.snk">
+      <Link>AngularTemplates.Compile.snk</Link>
+    </None>
   </ItemGroup>
 </Project>
