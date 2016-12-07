@@ -21,7 +21,7 @@ namespace AngularTemplates.Compile
             if (!string.IsNullOrWhiteSpace(options.Prefix))
             {
                 _baseUrl = options.Prefix;
-                if (!_baseUrl.EndsWith("/"))
+                if (!_baseUrl.EndsWith("/", StringComparison.InvariantCulture))
                 {
                     _baseUrl += "/";
                 }
