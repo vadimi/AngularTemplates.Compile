@@ -26,7 +26,7 @@ namespace AngularTemplates.Bundling
             if (context == null)
                 throw new ArgumentNullException("context");
 
-            if (!BundleTable.EnableOptimizations)
+            if ((!_options.EnableOptimizations.HasValue && !BundleTable.EnableOptimizations) || (_options.EnableOptimizations.HasValue && !_options.EnableOptimizations.Value))
             {
                 return new BundleResponse(string.Empty, new List<BundleFile>());
             }
