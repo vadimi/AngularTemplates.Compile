@@ -107,5 +107,41 @@ namespace AngularTemplates.Compile.Tests
             var result = compiler.Compile(new VirtualFile[] {template});
             Assert.Equal(File.ReadAllText("../../../expected/compiled1.js"), result);
         }
+
+        [Fact]
+        public void ShouldMinifyCompiledTemplate()
+        {
+            var options = new TemplateCompilerOptions
+            {
+                ModuleName = "",
+                WorkingDir = "/fixtures",
+                Standalone = true
+            };
+
+            var compiler = new TemplateCompiler(options);
+            var template = new TestVirtualFile("/fixtures/template3.html", @"<div>
+test
+</div>");
+            var result = compiler.Compile(new VirtualFile[] {template});
+            Assert.Equal(File.ReadAllText("../../../expected/compiled6.js"), result);
+        }
+
+        [Fact]
+        public void ShouldGenerateErrorMessageWhileMinifyingInvalidHtml()
+        {
+            var options = new TemplateCompilerOptions
+            {
+                ModuleName = "",
+                WorkingDir = "/fixtures",
+                Standalone = true
+            };
+
+            var compiler = new TemplateCompiler(options);
+            var template = new TestVirtualFile("/fixtures/template3.html", @"<div>
+test
+</div");
+            var result = compiler.Compile(new VirtualFile[] {template});
+            Assert.True(result.Contains("Html minification failed"));
+        }
     }
 }

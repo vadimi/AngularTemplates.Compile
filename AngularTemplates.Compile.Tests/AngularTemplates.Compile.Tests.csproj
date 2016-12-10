@@ -94,7 +94,6 @@
       <Name>AngularTemplates.Compile</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <None Include="app.config" />
     <None Include="expected\compiled1.js" />
@@ -105,5 +104,8 @@
     <None Include="fixtures\template2.html" />
     <None Include="packages.config" />
     <None Include="expected\compiled5.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="expected\compiled6.js" />
   </ItemGroup>
 </Project>

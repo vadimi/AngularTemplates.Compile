@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Web;
 using System.Text;
 using System.Web.Hosting;
+using WebMarkupMin.Core;
 
 namespace AngularTemplates.Compile
 {
@@ -102,7 +105,8 @@ namespace AngularTemplates.Compile
 
         private string CompileTemplate(string template)
         {
-            return HttpUtility.JavaScriptStringEncode(template, true);
+            var minifiedHtml = MinifyHtml(template);
+            return HttpUtility.JavaScriptStringEncode(minifiedHtml, true);
         }
 
         private string GetTemplateName(string file)
@@ -132,6 +136,31 @@ namespace AngularTemplates.Compile
             {
                 Directory.CreateDirectory(outputDir);
             }
+        }
+
+        private string MinifyHtml(string html)
+        {
+            var htmlMinifier = new HtmlMinifier();
+            var result = htmlMinifier.Minify(html);
+            if (result.Errors.Count == 0)
+            {
+                return result.MinifiedContent;
+            }
+
+            return GetMinificationError(html, result.Errors);
+        }
+
+        private string GetMinificationError(string originalHtml, IList<MinificationErrorInfo> errors)
+        {
+            var sb = new StringBuilder("<!-- Html minification failed. Returning unminified contents.");
+            sb.Append(Environment.NewLine);
+            foreach (var errorInfo in errors)
+            {
+                sb.AppendLine(errorInfo.Message).AppendLine(errorInfo.SourceFragment);
+            }
+            sb.AppendLine("-->").AppendLine(originalHtml);
+
+            return sb.ToString();
         }
     }
 }
