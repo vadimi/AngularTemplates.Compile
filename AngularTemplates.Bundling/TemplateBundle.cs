@@ -9,12 +9,35 @@ namespace AngularTemplates.Bundling
     public class TemplateBundle : ScriptBundle
     {
         private readonly TemplateCompilerOptions _options;
+        private readonly bool _bundleAlways;
 
-        public TemplateBundle(string virtualPath, TemplateCompilerOptions options) : base(virtualPath)
+        /// <summary>
+        /// Initializes new instance of <code>TemplateBundle</code>
+        /// </summary>
+        /// <param name="virtualPath">The virtual path of the bundle</param>
+        /// <param name="options">Template compiler options</param>
+        public TemplateBundle(string virtualPath, TemplateCompilerOptions options) : this(virtualPath, options, false)
         {
-            _options = options;
         }
 
+        /// <summary>
+        /// Initializes new instance of <code>TemplateBundle</code>
+        /// </summary>
+        /// <param name="virtualPath">The virtual path of the bundle</param>
+        /// <param name="options">Template compiler options</param>
+        /// <param name="bundleAlways">If true BundleTable.EnableOptimizations flag is ignored</param>
+        public TemplateBundle(string virtualPath, TemplateCompilerOptions options, bool bundleAlways) : base(virtualPath)
+        {
+            _options = options;
+            _bundleAlways = bundleAlways;
+        }
+
+        /// <summary>
+        /// Initializes new instance of <code>TemplateBundle</code>
+        /// </summary>
+        /// <param name="virtualPath">The virtual path of the bundle</param>
+        /// <param name="cdnPath">The path of a Content Delivery Network</param>
+        /// <param name="options">Template compiler options</param>
         public TemplateBundle(string virtualPath, string cdnPath, TemplateCompilerOptions options)
             : base(virtualPath, cdnPath)
         {
@@ -26,7 +49,7 @@ namespace AngularTemplates.Bundling
             if (context == null)
                 throw new ArgumentNullException("context");
 
-            if (!BundleTable.EnableOptimizations)
+            if (!BundleTable.EnableOptimizations && !_bundleAlways)
             {
                 return new BundleResponse(string.Empty, new List<BundleFile>());
             }
