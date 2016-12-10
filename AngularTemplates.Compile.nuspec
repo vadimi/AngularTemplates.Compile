@@ -3,7 +3,7 @@
   <metadata>
     <id>AngularTemplates.Compile</id>
     <title>AngularJS templates bundling</title>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
     <authors>Vadzim Ivanou</authors>
     <licenseUrl>http://www.opensource.org/licenses/mit</licenseUrl>
     <projectUrl>https://github.com/vadimi/AngularTemplates.Compile</projectUrl>
@@ -13,9 +13,11 @@
     <tags>angularjs msbuild templates bundling System.Web.Optimization</tags>
     <dependencies>
       <dependency id="Microsoft.AspNet.Web.Optimization" version="1.1.3" />
+      <dependency id="WebMarkupMin.Core" version="2.2.4" />
     </dependencies>
     <releaseNotes>
     * 1.1.0 - Add assembly strong name
+    * 1.2.0 - Minify HTML during the bundling process
     </releaseNotes>
   </metadata>
   <files>
