@@ -5,7 +5,7 @@
     <title>AngularJS templates bundling</title>
     <version>1.2.0</version>
     <authors>Vadzim Ivanou</authors>
-    <licenseUrl>http://www.opensource.org/licenses/mit</licenseUrl>
+    <licenseUrl>https://raw.githubusercontent.com/vadimi/AngularTemplates.Compile/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/vadimi/AngularTemplates.Compile</projectUrl>
     <language>en-US</language>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
